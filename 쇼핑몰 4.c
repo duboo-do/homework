@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define maxProduct 100
-#define LOW_STOCK 2
+//#define LOW_STOCK 2
 #define MAX_NAME_LENGTH 30
 
 int productSort;
