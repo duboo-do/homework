@@ -1,0 +1,195 @@
+#include <stdio.h>
+#include <string.h>
+
+#define maxProduct 100
+#define MAX_NAME_LENGTH 30
+
+int productSort = 5;  // 상품 수 설정 (예시로 5개 상품)
+int quantityReceiv[maxProduct];  // 입고 수량 배열
+int quantitySales[maxProduct];   // 판매 수량 배열
+char product_names[maxProduct][MAX_NAME_LENGTH]; // 상품명 배열
+
+// 전체 상품 입고
+void inputStock(int stock_in[]) {
+    printf("전체 상품의 입고수량 입력: ");
+    for (int i = 0; i < productSort; i++) {
+        scanf("%d", &stock_in[i]);
+    }
+    getchar();  // 개행 문자가 남아 있을 수 있으므로 처리
+}
+
+// 개별 상품 입고
+void quantitype(int stock_in[]) {
+    int ID, amount;
+    printf("상품 ID : ");
+    scanf("%d", &ID);
+    getchar();  // 개행 문자 처리
+    if (ID >= 0 && ID < productSort) {
+        printf("입고수량 : ");
+        scanf("%d", &amount);
+        stock_in[ID] += amount;
+        getchar();  // 개행 문자 처리
+    } else {
+        printf("잘못된 상품 ID입니다.\n");
+    }
+}
+
+// 전체 판매수량
+void inputSales(int stock_out[]) {
+    printf("전체 상품의 판매수량 입력: ");
+    for (int i = 0; i < productSort; i++) {
+        scanf("%d", &stock_out[i]);
+    }
+    getchar();  // 개행 문자가 남아 있을 수 있으므로 처리
+}
+
+// 개별 판매수량
+void sellProduct(int stock_out[]) {
+    int product_id, amount;
+    printf("상품 ID : ");
+    scanf("%d", &product_id);
+    getchar();  // 개행 문자 처리
+    if (product_id >= 0 && product_id < productSort) {
+        printf("판매수량: ");
+        scanf("%d", &amount);
+        getchar();
+        stock_out[product_id] += amount;
+        getchar();  // 개행 문자 처리
+    } else {
+        printf("잘못된 상품 ID입니다.\n");
+    }
+}
+
+// 상품 현황 출력
+void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NAME_LENGTH]) {
+    printf("상품 현황:\n");
+
+    int totalSales = 0;
+    int maxSales = -1, minSales = 1000; // 초기 값 설정
+    int maxId = -1, minId = -1;
+
+    // 재고수량 출력
+    printf("재고수량: ");
+    for (int i = 0; i < productSort; i++) {
+        int stockQuantity = stock_in[i] - stock_out[i];
+        printf("%d ", stockQuantity);
+    }
+    printf("\n");
+
+    // 판매량, 판매율 계산
+    for (int i = 0; i < productSort; i++) {
+        totalSales += stock_out[i];
+
+        if (stock_out[i] > maxSales) {
+            maxSales = stock_out[i];
+            maxId = i;
+        }
+        if (stock_out[i] < minSales) {
+            minSales = stock_out[i];
+            minId = i;
+        }
+    }
+
+    double saleRate = 0.0; 
+    int total_in = 0;
+    for (int i = 0; i < productSort; i++) {
+        total_in += stock_in[i];
+    }
+
+    if (total_in > 0) {
+        saleRate = ((double)totalSales / total_in) * 100;
+    }
+
+    // 총 판매량과 판매율 출력
+    printf("총 판매량 : %d (판매율 %.2f%%)\n", totalSales, saleRate);
+
+    // 가장 많이 팔린 상품, 가장 적게 팔린 상품 출력
+    printf("가장 많이 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", maxId, product_names[maxId], maxSales);
+    printf("가장 적게 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", minId, product_names[minId], minSales);
+
+    // 재고 부족 상품 출력
+    for (int i = 0; i < productSort; i++) {
+        int stockQuantity = stock_in[i] - stock_out[i];
+        if (stockQuantity <= 2 && stockQuantity > 0) {
+            printf("상품 ID %d : 상품명 : %s 재고부족(%d)\n", i, product_names[i], stockQuantity);
+        }
+        else if (stockQuantity <= 0) {
+            printf("상품 ID %d : 상품명 : %s 재고부족(%d)\n", i, product_names[i], stockQuantity);
+        }
+    }
+
+    // 메뉴 출력
+    printf("원하는 메뉴를 선택하세요.(1. 입고, 2. 판매, 3. 상품현황, 4. 상품명 입력, 5. 종료)\n");
+}
+
+// 상품명 입력
+void inputProductNames(char product_names[][MAX_NAME_LENGTH]) {
+    for (int i = 0; i < productSort; i++) {
+        printf("ID %d 상품명 : ", i);
+        // fgets를 사용하여 공백 포함 가능하도록 수정
+        fgets(product_names[i], MAX_NAME_LENGTH, stdin);
+        // 개행 문자 제거
+        product_names[i][strcspn(product_names[i], "\n")] = '\0';
+    }
+}
+
+int main() {
+    int stock_in[maxProduct] = { 0 };  // 초기 입고 수량
+    int stock_out[maxProduct] = { 0 }; // 초기 판매 수량
+    char product_names[maxProduct][MAX_NAME_LENGTH]; // 상품명 저장
+    int choice;
+
+    while (1) {
+        printf("원하는 메뉴를 선택하세요.\n");
+        printf("1. 입고\n2. 판매\n3. 상품현황\n4. 상품명 입력\n5. 종료\n");
+        printf("입력: ");
+        scanf("%d", &choice);
+        getchar();  // 입력 버퍼 비우기
+
+        switch (choice) {
+        case 1: // 입고
+            printf("1. 전체 상품 입고\n2. 개별 상품 입고\n");
+            scanf("%d", &choice);
+            getchar(); // 입력 버퍼 비우기
+            if (choice == 1) {
+                inputStock(stock_in);
+            } else if (choice == 2) {
+                quantitype(stock_in);
+            } else {
+                printf("잘못된 선택입니다.\n");
+            }
+            break;
+
+        case 2: // 판매
+            printf("1. 전체 상품 판매\n2. 개별 상품 판매\n");
+            scanf("%d", &choice);
+            getchar(); // 입력 버퍼 비우기
+            if (choice == 1) {
+                printf("판매수량 입력 : 전체 상품 판매수량 입력\n");
+                inputSales(stock_out); // 전체 판매 수량 입력
+            } else if (choice == 2) {
+                printf("판매수량 입력 : 개별 상품 판매수량 입력\n");
+                sellProduct(stock_out); // 개별 판매 수량 입력
+            } else {
+                printf("잘못된 선택입니다.\n");
+            }
+            break;
+
+        case 3: // 상품현황
+            currentProduct(stock_in, stock_out, product_names);
+            break;
+
+        case 4: // 상품명 입력
+            inputProductNames(product_names);
+            break;
+
+        case 5: // 종료
+            printf("프로그램을 종료합니다.\n");
+            return 0;
+
+        default:
+            printf("잘못된 선택입니다.\n");
+            break;
+        }
+    }
+}
