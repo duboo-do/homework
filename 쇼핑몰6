@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <string.h>
 
 #define MAX_PRODUCTS 5
@@ -139,6 +139,190 @@ void showAllProductInfo() {
         printf("판매량: %d\n", products[i].stock_out);
         printf("총판매금액: %d\n", products[i].total_sales);
         totalSales += products[i].total_sales;
+        printf("\n");
+    }
+    printf("전체 총 판매금액: %d\n", totalSales);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("원하는 메뉴를 선택하세요.\n");
+        printf("1. 입고\n2. 판매\n3. 개별현황\n4. 전체현황\n5. 종료\n");
+        printf("입력: ");
+        scanf("%d", &choice);
+        getchar();  // 개행 문자 처리
+
+        switch (choice) {
+        case 1:  // 입고
+            inputStock();
+            break;
+        case 2:  // 판매
+            inputSales();
+            break;
+        case 3:  // 개별상품정보
+            showIndividualProductInfo();
+            break;
+        case 4:  // 전체상품정보
+            showAllProductInfo();
+            break;
+        case 5:  // 종료
+            printf("프로그램을 종료합니다.\n");
+            return 0;
+        default:
+            printf("잘못된 선택입니다.\n");
+            break;
+        }
+    }
+
+    return 0;
+}
+*/
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_PRODUCTS 5
+#define MAX_NAME_LENGTH 30
+
+// 상품 정보를 저장할 구조체 정의
+typedef struct {
+    int id;
+    char name[MAX_NAME_LENGTH];
+    int price;
+    int stock_in;  // 입고량
+    int stock_out; // 판매량
+    int total_sales; // 총 판매 금액
+} Product;
+
+Product products[MAX_PRODUCTS];  // 상품 배열
+
+// 상품 갯수 초기화
+int productCount = 0;
+
+// 입고 처리
+void inputStock() {
+    if (productCount >= MAX_PRODUCTS) {
+        printf("상품 갯수가 최대치인 5개를 초과할 수 없습니다.\n");
+        return;
+    }
+
+    int id, stock, price;
+    char name[MAX_NAME_LENGTH];
+    
+    printf("상품 ID : ");
+    scanf("%d", &id);
+    getchar();  // 개행 문자 처리
+
+    // 상품이 이미 있는지 확인
+    for (int i = 0; i < productCount; i++) {
+        if (products[i].id == id) {
+            printf("상품이 이미 존재합니다. 상품 정보를 업데이트합니다.\n");
+            printf("입고량 : ");
+            scanf("%d", &stock);
+            products[i].stock_in += stock;  // 기존 입고량에 추가
+            printf("판매가격 : ");
+            scanf("%d", &price);
+            products[i].price = price;  // 판매가격 업데이트
+            return;
+        }
+    }
+
+    // 새 상품 추가
+    products[productCount].id = id;
+    printf("상품명 : ");
+    fgets(products[productCount].name, MAX_NAME_LENGTH, stdin);
+    products[productCount].name[strcspn(products[productCount].name, "\n")] = '\0';  // 개행 문자 제거
+
+    printf("입고량 : ");
+    scanf("%d", &stock);
+    printf("판매가격 : ");
+    scanf("%d", &price);
+    
+    products[productCount].stock_in = stock;
+    products[productCount].price = price;
+    products[productCount].stock_out = 0;
+    products[productCount].total_sales = 0;
+
+    productCount++;  // 상품 갯수 증가
+}
+
+// 판매 처리
+void inputSales() {
+    int id, quantity;
+    
+    printf("상품 ID : ");
+    scanf("%d", &id);
+    
+    // 상품이 있는지 확인
+    int found = 0;
+    for (int i = 0; i < productCount; i++) {
+        if (products[i].id == id) {
+            found = 1;
+            printf("판매량 : ");
+            scanf("%d", &quantity);
+            
+            // 판매량이 재고를 초과x
+            if (quantity > products[i].stock_in - products[i].stock_out) {
+                printf("판매량이 재고를 초과합니다. 다시 입력해주세요.\n");
+            } else {
+                products[i].stock_out += quantity;
+                products[i].total_sales += products[i].price * quantity;
+                printf("상품 판매가 완료되었습니다.\n");
+            }
+            break;
+        }
+    }
+    if (!found) {
+        printf("상품 ID가 존재하지 않습니다.\n");
+    }
+}
+
+// 개별 상품 정보 출력
+void showIndividualProductInfo() {
+    int id;
+    printf("상품 ID : ");
+    scanf("%d", &id);
+
+    // 상품이 있는지 확인
+    int found = 0;
+    for (int i = 0; i < productCount; i++) {
+        if (products[i].id == id) {
+            found = 1;
+            printf("상품명: %s\n", products[i].name);
+            printf("판매가격: %d\n", products[i].price);
+            printf("입고량: %d\n", products[i].stock_in);
+            printf("판매량: %d\n", products[i].stock_out);
+            printf("총판매금액: %d\n", products[i].total_sales);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("상품 ID가 존재하지 않습니다.\n");
+    }
+}
+
+// 전체 상품 정보 출력
+void showAllProductInfo() {
+    if (productCount == 0) {
+        printf("등록된 상품이 없습니다.\n");
+        return;
+    }
+    
+    int totalSales = 0;
+    
+    printf("전체 상품 현황:\n");
+    for (int i = 0; i < productCount; i++) {
+        printf("상품 ID: %d\n", products[i].id);
+        printf("상품명: %s\n", products[i].name);
+        printf("판매가격: %d\n", products[i].price);
+        printf("입고량: %d\n", products[i].stock_in);
+        printf("판매량: %d\n", products[i].stock_out);
+        printf("총판매금액: %d\n", products[i].total_sales);
+        totalSales += products[i].total_sales;
+        printf("전체 판매율: %2.lf%%", ((double)products[i].stock_out/products[i].stock_in)*100); //판매율 업데이트
         printf("\n");
     }
     printf("전체 총 판매금액: %d\n", totalSales);
