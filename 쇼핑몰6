@@ -310,7 +310,7 @@ void showAllProductInfo() {
         printf("등록된 상품이 없습니다.\n");
         return;
     }
-    
+    double perSale=0.0;
     int totalSales = 0;
     
     printf("전체 상품 현황:\n");
@@ -322,10 +322,10 @@ void showAllProductInfo() {
         printf("판매량: %d\n", products[i].stock_out);
         printf("총판매금액: %d\n", products[i].total_sales);
         totalSales += products[i].total_sales;
-        printf("전체 판매율: %2.lf%%", ((double)products[i].stock_out/products[i].stock_in)*100); //판매율 업데이트
+        perSale=((double)products[i].stock_out/products[i].stock_in)*100;
         printf("\n");
     }
-    printf("전체 총 판매금액: %d\n", totalSales);
+    printf("전체 총 판매금액: %d\n ,(판매율: %2.lf%%)", totalSales, perSale);//판매율 업데이트
 }
 
 int main() {
