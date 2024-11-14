@@ -21,14 +21,9 @@ int productCount = 0;
 
 // 입고 처리
 void inputStock() {
-    if (productCount >= MAX_PRODUCTS) {
-        printf("상품 갯수가 최대치인 5개를 초과할 수 없습니다.\n");
-        return;
-    }
-
     int id, stock, price;
     char name[MAX_NAME_LENGTH];
-    
+
     printf("상품 ID : ");
     scanf("%d", &id);
     getchar();  // 개행 문자 처리
@@ -36,6 +31,7 @@ void inputStock() {
     // 상품이 이미 있는지 확인
     for (int i = 0; i < productCount; i++) {
         if (products[i].id == id) {
+            // 상품이 이미 존재하면 업데이트
             printf("상품이 이미 존재합니다. 상품 정보를 업데이트합니다.\n");
             printf("입고량 : ");
             scanf("%d", &stock);
@@ -47,24 +43,31 @@ void inputStock() {
         }
     }
 
-    // 새 상품 추가
-    products[productCount].id = id;
-    printf("상품명 : ");
-    fgets(products[productCount].name, MAX_NAME_LENGTH, stdin);
-    products[productCount].name[strcspn(products[productCount].name, "\n")] = '\0';  // 개행 문자 제거
+    // 상품 배열이 꽉 차지 않았으면 새 상품 추가
+    if (productCount < MAX_PRODUCTS) {
+        // 새 상품 추가
+        products[productCount].id = id;
+        printf("상품명 : ");
+        fgets(products[productCount].name, MAX_NAME_LENGTH, stdin);
+        products[productCount].name[strcspn(products[productCount].name, "\n")] = '\0';  // 개행 문자 제거
 
-    printf("입고량 : ");
-    scanf("%d", &stock);
-    printf("판매가격 : ");
-    scanf("%d", &price);
-    
-    products[productCount].stock_in = stock;
-    products[productCount].price = price;
-    products[productCount].stock_out = 0;
-    products[productCount].total_sales = 0;
+        printf("입고량 : ");
+        scanf("%d", &stock);
+        printf("판매가격 : ");
+        scanf("%d", &price);
+        
+        products[productCount].stock_in = stock;
+        products[productCount].price = price;
+        products[productCount].stock_out = 0;
+        products[productCount].total_sales = 0;
 
-    productCount++;  // 상품 갯수 증가
+        productCount++;  // 상품 갯수 증가
+    } else {
+        // 상품 배열이 꽉 찼을 경우
+        printf("상품 갯수가 최대치인 5개를 초과할 수 없습니다.\n");
+    }
 }
+
 
 // 판매 처리
 void inputSales() {
@@ -128,10 +131,18 @@ void showAllProductInfo() {
         printf("등록된 상품이 없습니다.\n");
         return;
     }
-    double perSale=0.0;
-    int totalSales = 0;
-    
+
+    int totalStock = 0;        // 전체 재고량
+    int totalSales = 0;        // 전체 총 판매금액
+    int totalSoldItems = 0;    // 전체 판매량
+    int minSales = __INT_MAX__; // 최소 판매량
+    int maxSales = -1;         // 최대 판매량
+    int minSalesId = -1, maxSalesId = -1; // 최소/최대 판매량 상품 ID
+    char minSalesName[MAX_NAME_LENGTH], maxSalesName[MAX_NAME_LENGTH]; // 최소/최대 판매량 상품명
+    int insufficientStockCount = 0; // 재고 부족 상품 개수
+
     printf("전체 상품 현황:\n");
+    
     for (int i = 0; i < productCount; i++) {
         printf("상품 ID: %d\n", products[i].id);
         printf("상품명: %s\n", products[i].name);
@@ -139,12 +150,52 @@ void showAllProductInfo() {
         printf("입고량: %d\n", products[i].stock_in);
         printf("판매량: %d\n", products[i].stock_out);
         printf("총판매금액: %d\n", products[i].total_sales);
-        totalSales += products[i].total_sales;
-        perSale=((double)products[i].stock_out/products[i].stock_in)*100;
+
+        totalStock += products[i].stock_in;  // 전체 재고량 누적
+        totalSales += products[i].total_sales;  // 전체 판매 금액 누적
+        totalSoldItems += products[i].stock_out;  // 전체 판매량 누적
+
+        // 판매량이 최소/최대인지 확인
+        if (products[i].stock_out > maxSales) {
+            maxSales = products[i].stock_out;
+            maxSalesId = products[i].id;
+            strcpy(maxSalesName, products[i].name);
+        }
+        if (products[i].stock_out < minSales) {
+            minSales = products[i].stock_out;
+            minSalesId = products[i].id;
+            strcpy(minSalesName, products[i].name);
+        }
+
+        // 재고 부족 상품 체크
+        if (products[i].stock_in - products[i].stock_out <= 0) {
+            printf("상품 ID %d : 상품명: %s 재고부족(%d)\n", products[i].id, products[i].name, products[i].stock_in - products[i].stock_out);
+            insufficientStockCount++;
+        }
+
         printf("\n");
     }
-    printf("전체 총 판매금액: %d\n ,(판매율: %2.lf%%)", totalSales, perSale);//판매율 업데이트
+
+    // 판매율 계산
+    double saleRate = 0.0;
+    if (totalStock > 0) {
+        saleRate = ((double)totalSoldItems / totalStock) * 100;
+    }
+
+    // 전체 판매 금액과 판매율 출력
+    printf("전체 총 판매금액: %d\n", totalSales);
+    printf("판매율: %.2lf%%\n", saleRate);
+
+    // 가장 많이 판매된 상품, 가장 적게 판매된 상품 출력
+    printf("가장 많이 판매된 상품: ID %d, 상품명: %s, 판매량: %d\n", maxSalesId, maxSalesName, maxSales);
+    printf("가장 적게 판매된 상품: ID %d, 상품명: %s, 판매량: %d\n", minSalesId, minSalesName, minSales);
+
+    // 재고 부족 상품 개수 출력
+    if (insufficientStockCount == 0) {
+        printf("재고 부족 상품이 없습니다.\n");
+    }
 }
+
 
 int main() {
     int choice;
