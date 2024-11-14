@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_PRODUCTS 5
+#define max_product 5
 #define MAX_NAME_LENGTH 30
 
 // 상품 정보를 저장할 구조체 정의
@@ -14,7 +14,7 @@ typedef struct {
     int total_sales; // 총 판매 금액
 } Product;
 
-Product products[MAX_PRODUCTS];  // 상품 배열
+Product products[max_product];  // 상품 배열
 
 
 int productCount = 0;
@@ -42,9 +42,8 @@ void inputStock() {
             return;
         }
     }
-
     // 배열 5 이상 추가 안됐을시 상품 추가 
-    if (productCount < MAX_PRODUCTS) {
+    if (productCount < max_product) {
         // 새 상품 추가
         products[productCount].id = id;
         printf("상품명 : ");
@@ -73,7 +72,7 @@ void inputStock() {
 }
 
 
-// 판매 처리
+
 void inputSales() {
     int id, quantity;
     
@@ -104,7 +103,7 @@ void inputSales() {
     }
 }
 
-// 개별 상품 정보 출력
+
 void indiviProduct() {
     int id;
     printf("상품 ID : ");
@@ -129,64 +128,64 @@ void indiviProduct() {
     }
 }
 
-// 전체 상품 정보 출력
+
 void allProduct() {
     if (productCount == 0) {
         printf("등록된 상품이 없습니다.\n");
         return;
     }
 
-    int totalStock = 0;        // 전체 입고량
-    int totalSales = 0;        // 전체 총 판매금액
-    int totalSoldItems = 0;    // 전체 판매량
-    int minSales = __INT_MAX__; // 최소 판매량
-    int maxSales = -1;         // 최대 판매량
-    int minSalesId = -1, maxSalesId = -1; // 최소/최대 판매량 상품 ID
-    char minSalesName[MAX_NAME_LENGTH], maxSalesName[MAX_NAME_LENGTH]; // 최소/최대 판매량 상품명
-    int shortageStock = 0; // 재고 부족 상품 개수
+    int totalProduct = 0; //전체 입고량
+    int totalSales = 0; //전체 총 판매금액
+    int totalSold = 0; //전체 판매량
+    int minSales =1000000; //최소 판매량
+    int maxSales = -1; //최대 판매량
+    int minId = -1, maxId = -1; //최소,최대 판매량 상품 ID
+    char minName[MAX_NAME_LENGTH], maxName[MAX_NAME_LENGTH]; //최소,최대 판매량 상품명
+    int shortageStock = 0; //재고 부족 상품 개수
 
     printf("전체 상품 현황:\n");
 
     
     for (int i = 0; i < productCount; i++) {
-        // 전체 입고량 및 판매량 누적
-        totalStock += products[i].stock_in;
+        // 전체 입고량, 판매량 누적
+        totalProduct += products[i].stock_in;
         totalSales += products[i].total_sales;
-        totalSoldItems += products[i].stock_out;
+        totalSold += products[i].stock_out;
 
-        // 판매량이 최소/최대인지 확인
+        // 판매량이 최소,최대 확인
         if (products[i].stock_out > maxSales) {
             maxSales = products[i].stock_out;
-            maxSalesId = products[i].id;
-            strcpy(maxSalesName, products[i].name);
+            maxId = products[i].id;
+            strcpy(maxName, products[i].name);
         }
         if (products[i].stock_out < minSales) {
             minSales = products[i].stock_out;
-            minSalesId = products[i].id;
-            strcpy(minSalesName, products[i].name);
+            minId = products[i].id;
+            strcpy(minName, products[i].name);
         }
 
-        // 재고 부족 상품 체크 (현재 재고가 2 이하인 경우)
+        
         int currentStock = products[i].stock_in - products[i].stock_out;
         if (currentStock <= 2 && currentStock >= 0) {
             shortageStock++;
         }
     }
 
-    // 전체 판매율 계산
+  
     double saleRate = 0.0;
-    if (totalStock > 0) {
-        saleRate = ((double)totalSoldItems / totalStock) * 100;
+    if (totalProduct > 0) {
+        saleRate = ((double)totalSold / totalProduct) * 100;
     }
 
-    // 전체 팔린 개수 및 판매율 출력
-    printf("총 판매량 : %d (판매율 %.2lf%%)\n", totalSoldItems, saleRate);
+   
+    printf("총 판매량 : %d (판매율 %.2lf%%)\n", totalSold, saleRate);
 
-    // 가장 많이 팔린 상품, 가장 적게 팔린 상품 출력
-    printf("가장 많이 판매된 상품 : ID %d, 판매량 %d\n", maxSalesId, maxSales);
-    printf("가장 적게 판매된 상품 : ID %d, 판매량 %d\n", minSalesId, minSales);
 
-    // 재고 부족 상품이 있을 경우 출력
+    printf("가장 많이 판매된 상품 : ID %d, 상품명: %s, 판매량 %d\n", maxId, maxName, maxSales);
+    printf("가장 적게 판매된 상품 : ID %d, 상품명: %s, 판매량 %d\n", minId, minName, minSales);
+
+   
     if (shortageStock > 0) {
         for (int i = 0; i < productCount; i++) {
             int currentStock = products[i].stock_in - products[i].stock_out;
