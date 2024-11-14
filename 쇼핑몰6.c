@@ -43,7 +43,7 @@ void inputStock() {
         }
     }
 
-    // 상품 배열이 꽉 차지 않았으면 새 상품 추가
+    // 배열 5 이상 추가 안됐을시 상품 추가 
     if (productCount < MAX_PRODUCTS) {
         // 새 상품 추가
         products[productCount].id = id;
