@@ -80,7 +80,7 @@ void inputStock() {
             printf("판매가격 : ");
             scanf("%d", &price);
             products[i].price = price;  // 가격 업데이트
-            saveFile();  // 변경된거 저장
+            saveFile();  // 변경 저장
             return;
         }
     }
