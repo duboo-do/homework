@@ -10,7 +10,7 @@ void inputStock(int stock_in[]) {
         scanf_s("%d", &stock_in[i]);
     }
 }
-void quantityReceiv(int stock_in[]) {
+void indiviProduct(int stock_in[]) {
     int product_id, amount;
     printf("상품 ID (0-%d): ", max_product - 1);
     scanf_s("%d", &product_id);
@@ -117,7 +117,7 @@ int main() {
                 inputStock(stock_in);
             }
             else if (choice == 2) {
-                quantityReceiv(stock_in);
+                indiviProduct(stock_in);
             }
             else {
                 printf("잘못된 선택입니다.\n");
