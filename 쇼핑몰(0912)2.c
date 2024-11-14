@@ -8,14 +8,14 @@ int main() {
     int current_stock[max_product];
     int num_product;
     int i;
-    int total_stock = 0;//전체재고 수량 
+    int totalSales = 0;//전체재고 수량 
     int total_in = 0;//전체 입고 수량
     int total_out = 0;//전체 판매 수량
-    float total_per;//전체 판매율 
-    int max_id = -1;//최대 판매량 ID
-    int min_id = -1;//최소 판매량 ID
-    int max = -1;//최대 판매량
-    int min = 1000;//최소 판매량
+    double saleRate=0.0;//전체 판매율 
+    int maxId = -1;//최대 판매량 ID
+    int minId = -1;//최소 판매량 ID
+    int maxSales = -1;//최대 판매량
+    int minSales = 1000;//최소 판매량
 
     printf("상품의 개수 입력: ");
     scanf("%d", &num_product);
@@ -37,16 +37,16 @@ int main() {
      }
      for (i = 0; i < num_product; i++) {
             current_stock[i] = stock_in[i] - stock_out[i];
-            total_stock += stock_out[i];
+            totalSales += stock_out[i];
      
 
-        if (stock_out[i] > max) {
-            max = stock_out[i];
-            max_id = i;
+        if (stock_out[i] > maxSales) {
+            maxSales = stock_out[i];
+            maxId = i;
         }
-        if (stock_out[i] < min) {
-            min = stock_out[i];
-            min_id = i;
+        if (stock_out[i] < minSales) {
+            minSales = stock_out[i];
+            minId = i;
         }
         if (current_stock[i] <= 2) {
             printf("상품 ID %d: 재고부족(%d)\n", i+1, current_stock[i]);
@@ -58,18 +58,21 @@ int main() {
         int current_stock = stock_in[i] - stock_out[i];
         printf("%d",current_stock);
 
-        total_stock += stock_out[i];
+        totalSales += stock_out[i];
     }
     printf("\n");
-
-    printf("총 판매량: %d\n", total_stock);
-    if (total_in > 0) {
-        total_per = ((float)total_out / total_in) * 100;
-        printf("전체 판매율:%.2f%%\n", total_per);
+    
+    for(int i=0;i<num_product;i++){
+        total_in+=stock_in[i];
     }
+    
+    if (total_in > 0) {
+        saleRate = ((double)totalSales / total_in) * 100;
+    }
+        printf("총 판매량: %d (총 판매율:%.2f%%)\n",totalSales,saleRate);
 
-    printf("최대 판매량 상품: ID %d, 판매량 %d\n", max_id+1, max);
-    printf("최소 판매량 상품: ID %d, 판매량 %d\n", min_id+1, min);
+    printf("최대 판매량 상품: ID %d, 판매량 %d\n", maxId+1, maxSales);
+    printf("최소 판매량 상품: ID %d, 판매량 %d\n", minId+1, minSales);
 
     return 0;
 }
