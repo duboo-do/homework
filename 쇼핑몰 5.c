@@ -15,20 +15,20 @@ void inputStock(int stock_in[]) {
     for (int i = 0; i < productSort; i++) {
         scanf("%d", &stock_in[i]);
     }
-    getchar();  // 개행 문자가 남아 있을 수 있으므로 처리
+    getchar();  
 }
 
 // 개별 상품 입고
-void quantitype(int stock_in[]) {
+void indiviProduct(int stock_in[]) {
     int ID, amount;
     printf("상품 ID : ");
     scanf("%d", &ID);
-    getchar();  // 개행 문자 처리
+    getchar(); 
     if (ID >= 0 && ID < productSort) {
         printf("입고수량 : ");
         scanf("%d", &amount);
         stock_in[ID] += amount;
-        getchar();  // 개행 문자 처리
+        getchar(); 
     } else {
         printf("잘못된 상품 ID입니다.\n");
     }
@@ -40,7 +40,7 @@ void inputSales(int stock_out[]) {
     for (int i = 0; i < productSort; i++) {
         scanf("%d", &stock_out[i]);
     }
-    getchar();  // 개행 문자가 남아 있을 수 있으므로 처리
+    getchar();
 }
 
 // 개별 판매수량
@@ -48,13 +48,13 @@ void sellProduct(int stock_out[]) {
     int product_id, amount;
     printf("상품 ID : ");
     scanf("%d", &product_id);
-    getchar();  // 개행 문자 처리
+    getchar();  
     if (product_id >= 0 && product_id < productSort) {
         printf("판매수량: ");
         scanf("%d", &amount);
         getchar();
         stock_out[product_id] += amount;
-        getchar();  // 개행 문자 처리
+        getchar();  
     } else {
         printf("잘못된 상품 ID입니다.\n");
     }
@@ -65,7 +65,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     printf("상품 현황:\n");
 
     int totalSales = 0;
-    int maxSales = -1, minSales = 1000; // 초기 값 설정
+    int maxSales = -1, minSales = 1000; 
     int maxId = -1, minId = -1;
 
 
@@ -124,12 +124,12 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
 
 // 상품명 입력
 void inputProductNames(char product_names[][MAX_NAME_LENGTH]) {
-    for (int i = 0; i < productSort; i++) {
+    for (int i = 1; i <= productSort; i++) {
         printf("ID %d 상품명 : ", i);
-        // fgets를 사용하여 공백 포함 가능하도록 수정
         fgets(product_names[i], MAX_NAME_LENGTH, stdin);
-        // 개행 문자 제거
-        product_names[i][strcspn(product_names[i], "\n")] = '\0';
+        if (product_names[i][strlen(product_names[i]) - 1] == '\n') {
+            product_names[i][strlen(product_names[i]) - 1] = '\0';
+        }
     }
 }
 
@@ -150,11 +150,11 @@ int main() {
         case 1: 
             printf("1. 전체 상품 입고\n2. 개별 상품 입고\n");
             scanf("%d", &choice);
-            getchar(); // 입력 버퍼 비우기
+            getchar(); 
             if (choice == 1) {
                 inputStock(stock_in);
             } else if (choice == 2) {
-                quantitype(stock_in);
+                indiviProduct(stock_in);
             } else {
                 printf("잘못된 선택입니다.\n");
             }
@@ -163,13 +163,13 @@ int main() {
         case 2: 
             printf("1. 전체 상품 판매\n2. 개별 상품 판매\n");
             scanf("%d", &choice);
-            getchar(); // 입력 버퍼 비우기
+            getchar(); 
             if (choice == 1) {
                 printf("판매수량 입력 : 전체 상품 판매수량 입력\n");
-                inputSales(stock_out); // 전체 판매 수량 입력
+                inputSales(stock_out); 
             } else if (choice == 2) {
                 printf("판매수량 입력 : 개별 상품 판매수량 입력\n");
-                sellProduct(stock_out); // 개별 판매 수량 입력
+                sellProduct(stock_out); 
             } else {
                 printf("잘못된 선택입니다.\n");
             }
