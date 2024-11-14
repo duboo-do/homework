@@ -184,7 +184,6 @@ void showAllProductInfo() {
     char minSalesName[MAX_NAME_LENGTH], maxSalesName[MAX_NAME_LENGTH]; // 최소/최대 판매량 상품명
     int insufficientStockCount = 0; // 재고 부족 상품 개수
 
-    printf("전체 상품 현황:\n");
 
     // 판매량 계산 및 최대/최소 판매량 찾기
     for (int i = 0; i < productCount; i++) {
