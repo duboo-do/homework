@@ -8,32 +8,32 @@ int main() {
     int current_stock[max_product];
     int num_product;
     int i;
-    int total_stock = 0;//ÀüÃ¼Àç°í ¼ö·® 
-    int total_in = 0;//ÀüÃ¼ ÀÔ°í ¼ö·®
-    int total_out = 0;//ÀüÃ¼ ÆÇ¸Å ¼ö·®
-    float total_per;//ÀüÃ¼ ÆÇ¸ÅÀ² 
-    int max_id = -1;//ÃÖ´ë ÆÇ¸Å·® ID
-    int min_id = -1;//ÃÖ¼Ò ÆÇ¸Å·® ID
-    int max = -1;//ÃÖ´ë ÆÇ¸Å·®
-    int min = 1000;//ÃÖ¼Ò ÆÇ¸Å·®
+    int total_stock = 0;//ì „ì²´ì¬ê³  ìˆ˜ëŸ‰ 
+    int total_in = 0;//ì „ì²´ ì…ê³  ìˆ˜ëŸ‰
+    int total_out = 0;//ì „ì²´ íŒë§¤ ìˆ˜ëŸ‰
+    float total_per;//ì „ì²´ íŒë§¤ìœ¨ 
+    int max_id = -1;//ìµœëŒ€ íŒë§¤ëŸ‰ ID
+    int min_id = -1;//ìµœì†Œ íŒë§¤ëŸ‰ ID
+    int max = -1;//ìµœëŒ€ íŒë§¤ëŸ‰
+    int min = 1000;//ìµœì†Œ íŒë§¤ëŸ‰
 
-    printf("»óÇ°ÀÇ °³¼ö ÀÔ·Â: ");
+    printf("ìƒí’ˆì˜ ê°œìˆ˜ ì…ë ¥: ");
     scanf_s("%d", &num_product);
 
-    if (num_product > max_product || num_product <= 0) {//À¯È¿¼º °Ë»ç
-        printf("»óÇ°ÀÔ·Â ºÒ°¡´É\n");
-        return 1;//¿À·ù ¹ß»ı½Ã Á¾·á
+    if (num_product > max_product || num_product <= 0) {
+        printf("ìƒí’ˆì…ë ¥ ë¶ˆê°€ëŠ¥\n");
+        return 1;//ì˜¤ë¥˜ ë°œìƒì‹œ ì¢…ë£Œ
     }
-    printf("»óÇ° º° ÀÔ°í¼ö·® ÀÔ·Â: ");
+    printf("ìƒí’ˆ ë³„ ì…ê³ ìˆ˜ëŸ‰ ì…ë ¥: ");
     for (i = 0; i < num_product; i++) {
         scanf_s("%d", &stock_in[i]);
-        total_in += stock_in[i];//ÀüÃ¼ ÀÔ°í ¼ö·® ´©Àû
+        total_in += stock_in[i];
     }
 
-     printf("»óÇ° º° ÆÇ¸Å¼ö·® ÀÔ·Â: ");
+     printf("ìƒí’ˆ ë³„ íŒë§¤ìˆ˜ëŸ‰ ì…ë ¥: ");
      for (i = 0; i < num_product; i++) {
          scanf_s("%d", &stock_out[i]);
-         total_out += stock_out[i];//ÀüÃ¼ ÆÇ¸Å ¼ö·® ´©Àû
+         total_out += stock_out[i];
      }
      for (i = 0; i < num_product; i++) {
             current_stock[i] = stock_in[i] - stock_out[i];
@@ -49,33 +49,30 @@ int main() {
             min_id = i;
         }
         if (current_stock[i] <= 2) {
-            printf("»óÇ° ID %d: Àç°íºÎÁ·(%d)\n", i+1, current_stock[i]);
+            printf("ìƒí’ˆ ID %d: ì¬ê³ ë¶€ì¡±(%d)\n", i+1, current_stock[i]);
         }
      }
    
   
-    printf("ID ÀÔ·Â: ");
+    printf("ID ì…ë ¥: ");
     scanf_s("%d", &ID);
 
     if (ID >= 0 && ID < num_product) {
-        printf("%d ID¿¡ ÇØ´çÇÏ´Â Á¦Ç°ÀÇ Àç°í ¼ö·®: %d\n", ID, current_stock[ID]);
+        printf("%d IDì— í•´ë‹¹í•˜ëŠ” ì œí’ˆì˜ ì¬ê³  ìˆ˜ëŸ‰: %d\n", ID, current_stock[ID]);
     }
     else {
-        printf("Àß¸øµÈ IDÀÔ´Ï´Ù\n");
+        printf("ì˜ëª»ëœ IDì…ë‹ˆë‹¤\n");
     }
 
-    printf("ÃÑ ÆÇ¸Å·®: %d\n", total_stock);
+    printf("ì´ íŒë§¤ëŸ‰: %d\n", total_stock);
 
     if (total_in > 0) {
-       /* if (total_out > total_in) {
-            total_out = total_in;
-        }*/
         total_per = ((float)total_out / total_in) * 100;
-        printf("ÀüÃ¼ ÆÇ¸ÅÀ²:%.2f%%\n", total_per);
+        printf("ì „ì²´ íŒë§¤ìœ¨:%.2f%%\n", total_per);
     }
 
-    printf("ÃÖ´ë ÆÇ¸Å·® »óÇ°: ID %d, ÆÇ¸Å·® %d\n", max_id+1, max);
-    printf("ÃÖ¼Ò ÆÇ¸Å·® »óÇ°: ID %d, ÆÇ¸Å·® %d\n", min_id+1, min);
+    printf("ìµœëŒ€ íŒë§¤ëŸ‰ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", max_id+1, max);
+    printf("ìµœì†Œ íŒë§¤ëŸ‰ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", min_id+1, min);
 
     return 0;
 }
