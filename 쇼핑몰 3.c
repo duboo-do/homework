@@ -1,83 +1,3 @@
-/*#include <stdio.h>
-#define maxProduct 100
-
-int main() {
-    int ID[maxProduct]; //»óÇ° ID
-    int stockQuantity[maxProduct]; //ÇöÀç Àç°í
-    int productSort; //»óÇ° Á¾·ù
-    int quantityReceiv[maxProduct]; //ÀÔ°í¼ö·®
-    int quantitySale[maxProduct]; //ÆÇ¸Å¼ö·®
-    int totalQuantity = 0;
-    int i;
-    int totalReceiv = 0; //ÀüÃ¼ ÀÔ°í¼ö·®
-    int totalSales = 0; //ÀüÃ¼ ÆÇ¸Å¼ö·®
-    double salesRate;
-    int maxSale = 0; //ÃÖ´ë ÆÇ¸Å·®·®
-    int minSale = 0; //ÃÖ¼Ò ÆÇ¸Å·®·®
-    int maxID = -1; //ÃÖ´ë ÆÇ¸ÅID
-    int minID = -1; //ÃÖ¼Ò ÆÇ¸ÅID
-
-    printf("»óÇ° Á¾·ù ÀÔ·Â: ");
-    scanf_s("%d", &productSort);
-
-    printf("»óÇ° º° ÀÔ°í¼ö·® ÀÔ·Â: ");
-    for (i = 0; i < productSort; i++) {
-        scanf_s("%d", &quantityReceiv[i]);
-        totalReceiv += quantityReceiv[i];
-    }
-
-    printf("»óÇ° º° ÆÇ¸Å¼ö·® ÀÔ·Â: ");
-    for (i = 0; i < productSort; i++) {
-        scanf_s("%d", &quantitySale[i]);
-        totalSales += quantitySale[i];
-    }
-
-    printf("IDÀÔ·Â: ");
-    scanf_s("%d", &ID[i]);
-
-    for (i = 0; i < productSort; i++) {
-        stockQuantity[i] = quantityReceiv[i] - quantitySale[i];
-        totalQuantity += quantitySale[i];
-
-        if (quantitySale[i] > maxSale) {
-            maxSale = quantitySale[i];
-            maxID = ID[i];
-        }
-        if (minID == -1 || quantitySale[i] < minSale) {
-            minSale = quantitySale[i];
-            minID = ID[i];
-        }
-    }
-
-    printf("Àç°í¼ö·®: ");
-    for (i = 0; i < productSort; i++) {
-        printf("%d", stockQuantity[i]);
-    }
-
-
-    for (i = 0; i < productSort; i++) {
-        printf("%d", stockQuantity[i]);
-    }
-
-    salesRate = ((double)totalSales / totalReceiv) * 100;
-
-
-    printf("ÃÑ ÆÇ¸Å·®: %d\n", totalQuantity);
-    printf("ÆÇ¸ÅÀ² %.2f%%\n", salesRate);
-
-
-
-    printf("°¡Àå ¸¹ÀÌ ÆÇ¸ÅµÈ »óÇ° ID: %d, ÆÇ¸Å·®: %d", maxID, maxSale);
-    printf("°¡Àå Àû°Ô ÆÇ¸ÅµÈ »óÇ° ID: %d, ÆÇ¸Å·®: %d", minID, minSale);
-
-    for (i = 0; i < productSort; i++) {
-        if (quantityReceiv[i] <= 2) {
-            printf("°æ°í: »óÇ° ID %dÀç°í°¡ ºÎÁ·, ³²Àº ¼ö·®: %d\n", ID[i], quantityReceiv[i]);
-        }
-    }
-    return 0;
-}*/
-
 #include <stdio.h>
 #define max_product 5
 #define LOW_STOCK 2
@@ -85,26 +5,26 @@ int main() {
 
 
 void inputStock(int stock_in[]) {
-    printf("ÀüÃ¼ »óÇ°ÀÇ ÀÔ°í¼ö·®: ");
+    printf("ì „ì²´ ìƒí’ˆì˜ ì…ê³ ìˆ˜ëŸ‰: ");
     for (int i = 0; i < max_product; i++) {
         scanf_s("%d", &stock_in[i]);
     }
 }
 void quantityReceiv(int stock_in[]) {
     int product_id, amount;
-    printf("»óÇ° ID (0-%d): ", max_product - 1);
+    printf("ìƒí’ˆ ID (0-%d): ", max_product - 1);
     scanf_s("%d", &product_id);
     if (product_id >= 0 && product_id < max_product) {
-        printf("ÀÔ°í¼ö·®: ");
+        printf("ì…ê³ ìˆ˜ëŸ‰: ");
         scanf_s("%d", &amount);
         stock_in[product_id] += amount;
     }
     else {
-        printf("Àß¸øµÈ »óÇ° IDÀÔ´Ï´Ù.\n");
+        printf("ì˜ëª»ëœ ìƒí’ˆ IDì…ë‹ˆë‹¤.\n");
     }
 }
 void inputSales(int stock_out[]) {
-    printf("ÀüÃ¼ »óÇ°ÀÇ ÆÇ¸Å¼ö·® ÀÔ·Â: ");
+    printf("ì „ì²´ ìƒí’ˆì˜ íŒë§¤ìˆ˜ëŸ‰ ì…ë ¥: ");
     for (int i = 0; i < max_product; i++) {
         scanf_s("%d", &stock_out[i]);
     }
@@ -112,39 +32,39 @@ void inputSales(int stock_out[]) {
 
 void quantitySales(int stock_out[]) {
     int product_id, amount;
-    printf("»óÇ° ID : ", max_product - 1);
+    printf("ìƒí’ˆ ID : ", max_product - 1);
     scanf_s("%d", &product_id);
     if (product_id >= 0 && product_id < max_product) {
-        printf("ÆÇ¸Å¼ö·®: ");
+        printf("íŒë§¤ìˆ˜ëŸ‰: ");
         scanf_s("%d", &amount);
         stock_out[product_id] += amount;
     }
     else {
-        printf("Àß¸øµÈ »óÇ° IDÀÔ´Ï´Ù.\n");
+        printf("ì˜ëª»ëœ ìƒí’ˆ IDì…ë‹ˆë‹¤.\n");
     }
 }
 
 void inputProductNames(char product_names[][MAX_NAME_LENGTH]) {
     for (int i = 1; i < max_product+1; i++) {
-        printf("ID %d »óÇ°¸í: ", i);
+        printf("ID %d ìƒí’ˆëª…: ", i);
         scanf("%s", product_names[i]);
     }
 }
 
 void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NAME_LENGTH]) {
-    printf("»óÇ° ÇöÈ²:\n");
+    printf("ìƒí’ˆ í˜„í™©:\n");
 
     int total_sales = 0;
-    int max_sales = -1, min_sales = 1000; // ÃÊ±â °ª ¼³Á¤
+    int max_sales = -1, min_sales = 1000; 
     int max_id = -1, min_id = -1;
 
     for (int i = 0; i < max_product; i++) {
         int current_stock = stock_in[i] - stock_out[i];
-        printf("»óÇ° ID %d: Àç°í¼ö·® %d\n", i, current_stock);
+        printf("ìƒí’ˆ ID %d: ì¬ê³ ìˆ˜ëŸ‰ %d\n", i, current_stock);
 
         total_sales += stock_out[i];
 
-        // ÃÖ´ë, ÃÖ¼Ò ÆÇ¸Å·® °è»ê
+        // ìµœëŒ€, ìµœì†Œ íŒë§¤ëŸ‰ ê³„ì‚°
         if (stock_out[i] > max_sales) {
             max_sales = stock_out[i];
             max_id = i;
@@ -154,9 +74,9 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
             min_id = i;
         }
 
-        // Àç°í ºÎÁ· È®ÀÎ
+        // ì¬ê³  ë¶€ì¡± 
         if (current_stock <= LOW_STOCK) {
-            printf("»óÇ° ID %d: Àç°íºÎÁ·(%d)\n", i, current_stock);
+            printf("ìƒí’ˆ ID %d: ì¬ê³ ë¶€ì¡±(%d)\n", i, current_stock);
         }
     }
 
@@ -170,105 +90,28 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
         sales_rate = ((float)total_sales / total_in) * 100;
     }
 
-    printf("ÃÑ ÆÇ¸Å·®: %d\n", total_sales);
-    printf("ÆÇ¸ÅÀ²: %.2f%%\n", sales_rate);
-    printf("°¡Àå ¸¹ÀÌ ÆÇ¸ÅµÈ »óÇ°: ID %d, ÆÇ¸Å·® %d\n", max_id, max_sales);
-    printf("°¡Àå Àû°Ô ÆÇ¸ÅµÈ »óÇ°: ID %d, ÆÇ¸Å·® %d\n", min_id, min_sales);
+    printf("ì´ íŒë§¤ëŸ‰: %d\n", total_sales);
+    printf("íŒë§¤ìœ¨: %.2f%%\n", sales_rate);
+    printf("ê°€ì¥ ë§ì´ íŒë§¤ëœ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", max_id, max_sales);
+    printf("ê°€ì¥ ì ê²Œ íŒë§¤ëœ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", min_id, min_sales);
 }
 
 int main() {
-    /*int ID;
-    int stock_in[max_product] =;
-    int stock_out[max_product] =;
-    int current_stock[max_product] =;
-    int num_product;
-    int i;
-    int total_stock = 0;//ÀüÃ¼Àç°í ¼ö·® 
-    int total_in = 0;//ÀüÃ¼ ÀÔ°í ¼ö·®
-    int total_out = 0;//ÀüÃ¼ ÆÇ¸Å ¼ö·®
-    float total_per;//ÀüÃ¼ ÆÇ¸ÅÀ² 
-    int max_id = -1;//ÃÖ´ë ÆÇ¸Å·® ID
-    int min_id = -1;//ÃÖ¼Ò ÆÇ¸Å·® ID
-    int max = -1;//ÃÖ´ë ÆÇ¸Å·®
-    int min = 1000;//ÃÖ¼Ò ÆÇ¸Å·®
 
-    printf("»óÇ°ÀÇ °³¼ö ÀÔ·Â: ");
-    scanf_s("%d", &num_product);
-
-    if (num_product > max_product || num_product <= 0) {//À¯È¿¼º °Ë»ç
-        printf("»óÇ°ÀÔ·Â ºÒ°¡´É\n");
-        return 1;//¿À·ù ¹ß»ı½Ã Á¾·á
-    }
-    printf("»óÇ° º° ÀÔ°í¼ö·® ÀÔ·Â: ");
-    for (i = 0; i < num_product; i++) {
-        scanf_s("%d", &stock_in[i]);
-        total_in += stock_in[i];//ÀüÃ¼ ÀÔ°í ¼ö·® ´©Àû
-    }
-
-    printf("»óÇ° º° ÆÇ¸Å¼ö·® ÀÔ·Â: ");
-    for (i = 0; i < num_product; i++) {
-        scanf_s("%d", &stock_out[i]);
-        total_out += stock_out[i];//ÀüÃ¼ ÆÇ¸Å ¼ö·® ´©Àû
-    }
-    for (i = 0; i < num_product; i++) {
-        current_stock[i] = stock_in[i] - stock_out[i];
-        total_stock += stock_out[i];
-
-
-        if (stock_out[i] > max) {
-            max = stock_out[i];
-            max_id = i;
-        }
-        if (stock_out[i] < min) {
-            min = stock_out[i];
-            min_id = i;
-        }
-    }
-
-
-    printf("ID ÀÔ·Â: ");
-    scanf_s("%d", &ID);
-
-    if (ID >= 0 && ID < num_product) {
-        printf("%d ID¿¡ ÇØ´çÇÏ´Â Á¦Ç°ÀÇ Àç°í ¼ö·®: %d\n", ID, current_stock[ID]);
-    }
-    else {
-        printf("Àß¸øµÈ IDÀÔ´Ï´Ù\n");
-    }
-
-    for (i = 0; i < num_product; i++) {
-        printf("%d", current_stock[i]);
-    }
-
-    printf("ÃÑ ÆÇ¸Å·®: %d\n", total_stock);
-
-    if (total_in > 0) {
-        total_per = ((float)total_out / total_in) * 100;
-        printf("ÀüÃ¼ ÆÇ¸ÅÀ²:%.2f%%\n", total_per);
-    }
-
-    printf("ÃÖ´ë ÆÇ¸Å·® »óÇ°: ID %d, ÆÇ¸Å·® %d\n", max_id + 1, max);
-    printf("ÃÖ¼Ò ÆÇ¸Å·® »óÇ°: ID %d, ÆÇ¸Å·® %d\n", min_id + 1, min);
-    for (i = 0; i < num_product; i++) {
-        if (current_stock[i] <= 2) {
-            printf("»óÇ° ID %d: Àç°íºÎÁ·(%d)\n", i + 1, current_stock[i]);
-        }
-    }*/
-
-    int stock_in[max_product] = { 0 };  // ÃÊ±â ÀÔ°í ¼ö·®
-    int stock_out[max_product] = { 0 }; // ÃÊ±â ÆÇ¸Å ¼ö·®
-    char product_names[max_product][MAX_NAME_LENGTH]; // »óÇ°¸í ÀúÀå
+    int stock_in[max_product] = { 0 };  // ì´ˆê¸° ì…ê³  ìˆ˜ëŸ‰
+    int stock_out[max_product] = { 0 }; // ì´ˆê¸° íŒë§¤ ìˆ˜ëŸ‰
+    char product_names[max_product][MAX_NAME_LENGTH]; // ìƒí’ˆëª… ì €ì¥
     int choice;
 
     while (1) {
-        printf("¿øÇÏ´Â ¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä.\n");
-        printf("1. ÀÔ°í\n2. ÆÇ¸Å\n3. »óÇ°ÇöÈ²\n4. »óÇ°¸í ÀÔ·Â\n5. Á¾·á\n");
-        printf("ÀÔ·Â: ");
+        printf("ì›í•˜ëŠ” ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš”.\n");
+        printf("1. ì…ê³ \n2. íŒë§¤\n3. ìƒí’ˆí˜„í™©\n4. ìƒí’ˆëª… ì…ë ¥\n5. ì¢…ë£Œ\n");
+        printf("ì…ë ¥: ");
         scanf_s("%d", &choice);
 
         switch (choice) {
-        case 1: // ÀÔ°í
-            printf("1. ÀüÃ¼ »óÇ° ÀÔ°í\n2. °³º° »óÇ° ÀÔ°í\n");
+        case 1: 
+            printf("1. ì „ì²´ ìƒí’ˆ ì…ê³ \n2. ê°œë³„ ìƒí’ˆ ì…ê³ \n");
             scanf_s("%d", &choice);
             if (choice == 1) {
                 inputStock(stock_in);
@@ -277,12 +120,12 @@ int main() {
                 quantityReceiv(stock_in);
             }
             else {
-                printf("Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù.\n");
+                printf("ì˜ëª»ëœ ì„ íƒì…ë‹ˆë‹¤.\n");
             }
             break;
 
-        case 2: // ÆÇ¸Å
-            printf("1. ÀüÃ¼ »óÇ° ÆÇ¸Å\n2. °³º° »óÇ° ÆÇ¸Å\n");
+        case 2: 
+            printf("1. ì „ì²´ ìƒí’ˆ íŒë§¤\n2. ê°œë³„ ìƒí’ˆ íŒë§¤\n");
             scanf_s("%d", &choice);
             if (choice == 1) {
                 inputSales(stock_out);
@@ -291,24 +134,24 @@ int main() {
                 quantitySales(stock_out);
             }
             else {
-                printf("Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù.\n");
+                printf("ì˜ëª»ëœ ì„ íƒì…ë‹ˆë‹¤.\n");
             }
             break;
 
-        case 3: // »óÇ°ÇöÈ²
+        case 3: 
             currentProduct(stock_in, stock_out,product_names);
             break;
 
-        case 4:// »óÇ°¸í ÀÔ·Â
+        case 4:
             inputProductNames(product_names);
             break;
 
-        case 5: // Á¾·á
-            printf("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.\n");
+        case 5: 
+            printf("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
             return 0;
 
         default:
-            printf("Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù.\n");
+            printf("ì˜ëª»ëœ ì„ íƒì…ë‹ˆë‹¤.\n");
             break;
         }
     }
