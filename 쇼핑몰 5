@@ -4,9 +4,9 @@
 #define maxProduct 100
 #define MAX_NAME_LENGTH 30
 
-int productSort = 5;  // 상품 수 설정 (예시로 5개 상품)
-int quantityReceiv[maxProduct];  // 입고 수량 배열
-int quantitySales[maxProduct];   // 판매 수량 배열
+int productSort = 5;  
+int quantityReceiv[maxProduct]; 
+int quantitySales[maxProduct];  
 char product_names[maxProduct][MAX_NAME_LENGTH]; // 상품명 배열
 
 // 전체 상품 입고
@@ -68,7 +68,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     int maxSales = -1, minSales = 1000; // 초기 값 설정
     int maxId = -1, minId = -1;
 
-    // 재고수량 출력
+
     printf("재고수량: ");
     for (int i = 0; i < productSort; i++) {
         int stockQuantity = stock_in[i] - stock_out[i];
@@ -76,7 +76,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     }
     printf("\n");
 
-    // 판매량, 판매율 계산
+
     for (int i = 0; i < productSort; i++) {
         totalSales += stock_out[i];
 
@@ -100,14 +100,14 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
         saleRate = ((double)totalSales / total_in) * 100;
     }
 
-    // 총 판매량과 판매율 출력
+    
     printf("총 판매량 : %d (판매율 %.2f%%)\n", totalSales, saleRate);
 
-    // 가장 많이 팔린 상품, 가장 적게 팔린 상품 출력
+
     printf("가장 많이 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", maxId, product_names[maxId], maxSales);
     printf("가장 적게 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", minId, product_names[minId], minSales);
 
-    // 재고 부족 상품 출력
+
     for (int i = 0; i < productSort; i++) {
         int stockQuantity = stock_in[i] - stock_out[i];
         if (stockQuantity <= 2 && stockQuantity > 0) {
@@ -118,7 +118,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
         }
     }
 
-    // 메뉴 출력
+
     printf("원하는 메뉴를 선택하세요.(1. 입고, 2. 판매, 3. 상품현황, 4. 상품명 입력, 5. 종료)\n");
 }
 
@@ -134,9 +134,9 @@ void inputProductNames(char product_names[][MAX_NAME_LENGTH]) {
 }
 
 int main() {
-    int stock_in[maxProduct] = { 0 };  // 초기 입고 수량
-    int stock_out[maxProduct] = { 0 }; // 초기 판매 수량
-    char product_names[maxProduct][MAX_NAME_LENGTH]; // 상품명 저장
+    int stock_in[maxProduct] = { 0 };  
+    int stock_out[maxProduct] = { 0 }; 
+    char product_names[maxProduct][MAX_NAME_LENGTH];
     int choice;
 
     while (1) {
@@ -144,10 +144,10 @@ int main() {
         printf("1. 입고\n2. 판매\n3. 상품현황\n4. 상품명 입력\n5. 종료\n");
         printf("입력: ");
         scanf("%d", &choice);
-        getchar();  // 입력 버퍼 비우기
+        getchar();  
 
         switch (choice) {
-        case 1: // 입고
+        case 1: 
             printf("1. 전체 상품 입고\n2. 개별 상품 입고\n");
             scanf("%d", &choice);
             getchar(); // 입력 버퍼 비우기
@@ -160,7 +160,7 @@ int main() {
             }
             break;
 
-        case 2: // 판매
+        case 2: 
             printf("1. 전체 상품 판매\n2. 개별 상품 판매\n");
             scanf("%d", &choice);
             getchar(); // 입력 버퍼 비우기
@@ -175,15 +175,15 @@ int main() {
             }
             break;
 
-        case 3: // 상품현황
+        case 3: 
             currentProduct(stock_in, stock_out, product_names);
             break;
 
-        case 4: // 상품명 입력
+        case 4: 
             inputProductNames(product_names);
             break;
 
-        case 5: // 종료
+        case 5: 
             printf("프로그램을 종료합니다.\n");
             return 0;
 
