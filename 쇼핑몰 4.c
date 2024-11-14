@@ -1,6 +1,5 @@
 #include <stdio.h>
 #define maxProduct 100
-//#define LOW_STOCK 2
 #define MAX_NAME_LENGTH 30
 
 int productSort;
@@ -63,7 +62,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     
         totalSales += stock_out[i];
 
-        // 최대, 최소 판매량 계산
+        
         if (stock_out[i] > maxSales) {
             maxSales = stock_out[i];
             maxId = i;
@@ -73,7 +72,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
             minId = i;
         }
 
-        // 재고 부족 확인
+        
         for (i = 0; i < productSort; i++) {
         if (quantityReceiv[i] <= 2) {
             printf("경고: 상품 ID %d재고가 부족, 남은 수량: %d\n", Id[i], quantityReceiv[i]);
@@ -81,7 +80,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
       }
     }
 
-    double saleRate = 0.0; //판매율
+    double saleRate = 0.0; 
     int total_in = 0;
     for (int i = 0; i < productSort; i++) {
         total_in += stock_in[i];
@@ -97,7 +96,7 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     printf("가장 적게 판매된 상품: ID %d, 판매량 %d\n", minId, minSales);
 }
 
-void inputProductNames(char product_names[][MAX_NAME_LENGTH]) { //상품명
+void inputProductNames(char product_names[][MAX_NAME_LENGTH]) { 
     for (int i = 0; i < productSort; i++) {
         printf("ID %d 상품명: ", i);
         scanf("%s", product_names[i]);
@@ -105,9 +104,9 @@ void inputProductNames(char product_names[][MAX_NAME_LENGTH]) { //상품명
 }
 
 int main() {
-    int stock_in[maxProduct] = { 0 };  // 초기 입고 수량
-    int stock_out[maxProduct] = { 0 }; // 초기 판매 수량
-    char product_names[maxProduct][MAX_NAME_LENGTH]; // 상품명 저장
+    int stock_in[maxProduct] = { 0 };  
+    int stock_out[maxProduct] = { 0 }; 
+    char product_names[maxProduct][MAX_NAME_LENGTH]; 
     int choice;
 
     while (1) {
@@ -117,7 +116,7 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-        case 1: // 입고
+        case 1: 
             printf("1. 전체 상품 입고\n2. 개별 상품 입고\n");
             scanf("%d", &choice);
             if (choice == 1) {
@@ -131,7 +130,7 @@ int main() {
             }
             break;
 
-        case 2: // 판매
+        case 2: 
             printf("1. 전체 상품 판매\n2. 개별 상품 판매\n");
             scanf("%d", &choice);
             if (choice == 1) {
@@ -145,15 +144,15 @@ int main() {
             }
             break;
 
-        case 3: // 상품현황
+        case 3: 
             currentProduct(stock_in, stock_out,product_names);
             break;
 
-        case 4:// 상품명 입력
+        case 4:
             inputProductNames(product_names);
             break;
 
-        case 5: // 종료
+        case 5: 
             printf("프로그램을 종료합니다.\n");
             return 0;
 
