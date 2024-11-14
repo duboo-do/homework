@@ -26,7 +26,7 @@ void inputStock() {
 
     printf("상품 ID : ");
     scanf("%d", &id);
-    getchar();  // 개행 문자 처리
+    getchar(); 
 
     // 상품이 이미 있는지 확인
     for (int i = 0; i < productCount; i++) {
@@ -38,7 +38,7 @@ void inputStock() {
             products[i].stock_in += stock;  // 기존 입고량에 추가
             printf("판매가격 : ");
             scanf("%d", &price);
-            products[i].price = price;  // 판매가격 업데이트
+            products[i].price = price;  // 가격 업데이트
             return;
         }
     }
@@ -49,7 +49,11 @@ void inputStock() {
         products[productCount].id = id;
         printf("상품명 : ");
         fgets(products[productCount].name, MAX_NAME_LENGTH, stdin);
-        products[productCount].name[strcspn(products[productCount].name, "\n")] = '\0';  // 개행 문자 제거
+        
+        size_t len = strlen(products[productCount].name);
+        if (len > 0 && products[productCount].name[len - 1] == '\n') {
+            products[productCount].name[len - 1] = '\0'; 
+        }
 
         printf("입고량 : ");
         scanf("%d", &stock);
