@@ -18,7 +18,7 @@ int main() {
     int min = 1000;//최소 판매량
 
     printf("상품의 개수 입력: ");
-    scanf_s("%d", &num_product);
+    scanf("%d", &num_product);
 
     if (num_product > max_product || num_product <= 0) {
         printf("상품입력 불가능\n");
@@ -26,13 +26,13 @@ int main() {
     }
     printf("상품 별 입고수량 입력: ");
     for (i = 0; i < num_product; i++) {
-        scanf_s("%d", &stock_in[i]);
+        scanf("%d", &stock_in[i]);
         total_in += stock_in[i];
     }
 
      printf("상품 별 판매수량 입력: ");
      for (i = 0; i < num_product; i++) {
-         scanf_s("%d", &stock_out[i]);
+         scanf("%d", &stock_out[i]);
          total_out += stock_out[i];
      }
      for (i = 0; i < num_product; i++) {
@@ -53,19 +53,16 @@ int main() {
         }
      }
    
-  
-    printf("ID 입력: ");
-    scanf_s("%d", &ID);
+    printf("재고수량: ");
+    for (int i = 0; i < num_product; i++) {
+        int current_stock = stock_in[i] - stock_out[i];
+        printf("%d",current_stock);
 
-    if (ID >= 0 && ID < num_product) {
-        printf("%d ID에 해당하는 제품의 재고 수량: %d\n", ID, current_stock[ID]);
+        total_stock += stock_out[i];
     }
-    else {
-        printf("잘못된 ID입니다\n");
-    }
+    printf("\n");
 
     printf("총 판매량: %d\n", total_stock);
-
     if (total_in > 0) {
         total_per = ((float)total_out / total_in) * 100;
         printf("전체 판매율:%.2f%%\n", total_per);
