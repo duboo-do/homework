@@ -98,9 +98,9 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
 
 int main() {
 
-    int stock_in[max_product] = { 0 };  // 초기 입고 수량
-    int stock_out[max_product] = { 0 }; // 초기 판매 수량
-    char product_names[max_product][MAX_NAME_LENGTH]; // 상품명 저장
+    int stock_in[max_product] = { 0 };  
+    int stock_out[max_product] = { 0 };
+    char product_names[max_product][MAX_NAME_LENGTH]; 
     int choice;
 
     while (1) {
