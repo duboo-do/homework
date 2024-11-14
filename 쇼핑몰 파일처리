@@ -91,8 +91,12 @@ void inputStock() {
         products[productCount].id = id;
         printf("상품명 : ");
         fgets(products[productCount].name, MAX_NAME_LENGTH, stdin);
-        products[productCount].name[strcspn(products[productCount].name, "\n")] = '\0';  // 개행 문자 제거
-
+        
+        size_t len = strlen(products[productCount].name);
+        if (len > 0 && products[productCount].name[len - 1] == '\n') {
+            products[productCount].name[len - 1] = '\0'; 
+        }
+        
         printf("입고량 : ");
         scanf("%d", &stock);
         printf("판매가격 : ");
@@ -217,14 +221,14 @@ void showAllProductInfo() {
         saleRate = ((double)totalSoldItems / totalStock) * 100;
     }
 
-    // 전체 팔린 개수 및 판매율 출력
+    
     printf("총 판매량 : %d (판매율 %.2lf%%)\n", totalSoldItems, saleRate);
 
-    // 가장 많이 팔린 상품, 가장 적게 팔린 상품 출력
+    
     printf("가장 많이 판매된 상품 : ID %d, 판매량 %d\n", maxSalesId, maxSales);
     printf("가장 적게 판매된 상품 : ID %d, 판매량 %d\n", minSalesId, minSales);
 
-    // 재고 부족 상품이 있을 경우 출력
+    // 재고 부족 상품있을때 출력
     if (insufficientStockCount > 0) {
         for (int i = 0; i < productCount; i++) {
             int currentStock = products[i].stock_in - products[i].stock_out;
@@ -238,7 +242,7 @@ void showAllProductInfo() {
 int main() {
     int choice;
 
-    // 파일에서 데이터 읽기
+    // 파일 데이터 읽기
     rProductsFromFile();
 
     while (1) {
@@ -249,19 +253,19 @@ int main() {
         getchar();  // 개행 문자 처리
 
         switch (choice) {
-        case 1:  // 입고
+        case 1:  
             inputStock();
             break;
-        case 2:  // 판매
+        case 2:  
             inputSales();
             break;
-        case 3:  // 개별상품정보
+        case 3:  
             showIndividualProductInfo();
             break;
-        case 4:  // 전체상품정보
+        case 4:  
             showAllProductInfo();
             break;
-        case 5:  // 종료
+        case 5:  
             printf("프로그램을 종료합니다.\n");
             return 0;
         default:
