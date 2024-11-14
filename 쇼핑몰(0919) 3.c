@@ -1,7 +1,6 @@
 #include <stdio.h>
 #define max_product 5
 #define LOW_STOCK 2
-#define MAX_NAME_LENGTH 30
 
 
 void inputStock(int stock_in[]) {
@@ -11,13 +10,13 @@ void inputStock(int stock_in[]) {
     }
 }
 void indiviProduct(int stock_in[]) {
-    int product_id, amount;
+    int ID, amount;
     printf("상품 ID : ");
-    scanf("%d", &product_id);
-    if (product_id >= 0 && product_id < max_product) {
+    scanf("%d", &ID);
+    if (ID >= 0 && ID < max_product) {
         printf("입고수량: ");
         scanf("%d", &amount);
-        stock_in[product_id] += amount;
+        stock_in[ID] += amount;
     }
     else {
         printf("잘못된 상품 ID입니다.\n");
@@ -45,7 +44,7 @@ void indiviSales(int stock_out[]) {
 }
 
 
-void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NAME_LENGTH]) {
+void currentProduct(int stock_in[], int stock_out[]) {
     printf("상품 현황:\n");
 
     int totalSales = 0;
@@ -88,8 +87,8 @@ void currentProduct(int stock_in[], int stock_out[], char product_names[][MAX_NA
     printf("총 판매량 : %d (판매율 %.2f%%)\n", totalSales, saleRate);
 
 
-    printf("가장 많이 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", maxId, product_names[maxId], maxSales);
-    printf("가장 적게 판매된 상품 : ID %d, 상품명 : %s, 판매량 %d\n", minId, product_names[minId], minSales);
+    printf("가장 많이 판매된 상품 : ID %d, 판매량 %d\n", maxId,maxSales);
+    printf("가장 적게 판매된 상품 : ID %d, 판매량 %d\n", minId,minSales);
 
 
     for (int i = 0; i < max_product; i++) {
@@ -112,7 +111,6 @@ int main() {
 
     int stock_in[max_product] = { 0 };  
     int stock_out[max_product] = { 0 };
-    char product_names[max_product][MAX_NAME_LENGTH]; 
     int choice;
 
     while (1) {
@@ -151,7 +149,7 @@ int main() {
             break;
 
         case 3: 
-            currentProduct(stock_in, stock_out,product_names);
+            currentProduct(stock_in, stock_out);
             break;
 
 
