@@ -7,16 +7,16 @@
 void inputStock(int stock_in[]) {
     printf("전체 상품의 입고수량: ");
     for (int i = 0; i < max_product; i++) {
-        scanf_s("%d", &stock_in[i]);
+        scanf("%d", &stock_in[i]);
     }
 }
 void indiviProduct(int stock_in[]) {
     int product_id, amount;
-    printf("상품 ID (0-%d): ", max_product - 1);
-    scanf_s("%d", &product_id);
+    printf("상품 ID : ");
+    scanf("%d", &product_id);
     if (product_id >= 0 && product_id < max_product) {
         printf("입고수량: ");
-        scanf_s("%d", &amount);
+        scanf("%d", &amount);
         stock_in[product_id] += amount;
     }
     else {
@@ -26,17 +26,17 @@ void indiviProduct(int stock_in[]) {
 void inputSales(int stock_out[]) {
     printf("전체 상품의 판매수량 입력: ");
     for (int i = 0; i < max_product; i++) {
-        scanf_s("%d", &stock_out[i]);
+        scanf("%d", &stock_out[i]);
     }
 }
 
 void quantitySales(int stock_out[]) {
     int product_id, amount;
-    printf("상품 ID : ", max_product - 1);
-    scanf_s("%d", &product_id);
+    printf("상품 ID : %d", max_product - 1);
+    scanf("%d", &product_id);
     if (product_id >= 0 && product_id < max_product) {
         printf("판매수량: ");
-        scanf_s("%d", &amount);
+        scanf("%d", &amount);
         stock_out[product_id] += amount;
     }
     else {
@@ -107,12 +107,12 @@ int main() {
         printf("원하는 메뉴를 선택하세요.\n");
         printf("1. 입고\n2. 판매\n3. 상품현황\n4. 상품명 입력\n5. 종료\n");
         printf("입력: ");
-        scanf_s("%d", &choice);
+        scanf("%d", &choice);
 
         switch (choice) {
         case 1: 
             printf("1. 전체 상품 입고\n2. 개별 상품 입고\n");
-            scanf_s("%d", &choice);
+            scanf("%d", &choice);
             if (choice == 1) {
                 inputStock(stock_in);
             }
@@ -126,7 +126,7 @@ int main() {
 
         case 2: 
             printf("1. 전체 상품 판매\n2. 개별 상품 판매\n");
-            scanf_s("%d", &choice);
+            scanf("%d", &choice);
             if (choice == 1) {
                 inputSales(stock_out);
             }
