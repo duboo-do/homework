@@ -55,11 +55,18 @@ int main(){
     int num1, num2;
     
     printf("<<<<input>>>>>\n");
-    gets(input1);
-    gets(op);
-    gets(input2);
+    
+    fgets(input1, sizeof(input1), stdin);
+    fgets(op, sizeof(op), stdin);
+    fgets(input2, sizeof(input2), stdin);
+    
+    // fgets는 개행 문자까지 읽으므로 개행 문자를 제거
+    input1[strcspn(input1, "\n")] = '\0';
+    op[strcspn(op, "\n")] = '\0';
+    input2[strcspn(input2, "\n")] = '\0';
+    
     getBinary(binary1, input1, WORD);
-    getBinary(binary1, input1, WORD);
+    getBinary(binary2, input2, WORD);
     
     num1=bin2dec(binary1, WORD);
     num2=bin2dec(binary2, WORD);
